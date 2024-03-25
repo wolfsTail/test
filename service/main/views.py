@@ -9,8 +9,9 @@ def index(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES["file"]
-            data = file.read().decode("utf-8").split()
-            frequency = parser.parse_text(data)
+            data = file.read().decode("utf-8")
+            parsed_data = parser.parse_file(data)
+            frequency = parser.get_ft_idf(parsed_data)
             return render(
                 request, "main/index.html", {"form": form, "frequency": frequency}
             )
@@ -19,11 +20,3 @@ def index(request):
     else:
         form = FileForm()
         return render(request, "main/index.html", {"form": form})
-
-
-def results(request):
-    return render(request, "main/results.html")
-
-
-def get_result(request, file_id):
-    return render(request, "main/detail.html", {"file_id": file_id})

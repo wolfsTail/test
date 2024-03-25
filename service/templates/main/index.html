@@ -7,8 +7,16 @@
     <h3>Загрузите текстовый файл</h3>
     <form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="error">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
         {{ form.as_p }}
-        <button type="submit">Загрузить</button>
+
+        <button type="submit">Анализ</button>
     </form>
 
     {% if frequency %}
@@ -26,7 +34,6 @@
               <td>{{ value.1 }}</td>
             </tr>
             {% endfor %}
-          </table>
-          
+          </table>          
     {% endif %}
 {% endblock %}
